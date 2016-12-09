@@ -2,6 +2,11 @@
 
 <html>
 <head>
+   <style>
+   #my_canvas{
+      background-color: #000;
+   }
+   </style>
 </head>
 <body>
    <canvas id="my_canvas"></canvas>
@@ -10,6 +15,9 @@
    var ctx = null;
    var img;
    var spimg; //sprite image object
+   var alienSprite;
+   var tankSprite;
+   var citySprite;
    
    //sprite variables
    /** drawing a sprite:
@@ -47,8 +55,8 @@
       var body = document.getElementById("body");
       canvas = document.getElementById("my_canvas");  
       ctx = canvas.getContext('2d');
-      canvas.width=1200;
-      canvas.height=700;
+      canvas.width=504;
+      canvas.height=600;
       //body.appendChild(canvas);
       
       img = new Image();
@@ -68,23 +76,48 @@
          * [ [1,0] , [1,1] ]
          * [ [2,0] , [2,1] ]
          **/
-         //drawSprite(alienSprite[0][0], 200, 200);
+         tankSprite = new Sprite(spimg, 62, 0, 22, 16);
+         citySprite =  new Sprite(spimg, 84, 8, 36, 24);
          var i,j;
          for ( i=0; i<3; i++){
             for ( j=0; j<2; j++){
                drawSprite(alienSprite[i][j], 100*j+50, 100*i+50);
             }
           }
+         drawSprite(tankSprite, tankSprite.sw, 400);
+         drawSprite(citySprite, 450, 450);
       }; //end spimg.onload    
-      spimg.src="images/spritemap.png";
-              
-    }; //end setup()
+      spimg.src="images/spritemap.png"; //onload() is called immediately upon setting .src             
+       tank = {
+         sprite: tankSprite,
+         x: (canvas.width - tankSprite.sw)/2,
+         y: (canvas.height - (30 + tankSprite.sh))/2
+      };
+      drawSprite (tank.sprite, tank.x, tank.y);
+       
+   }; //end setup()
+
+   /**
+   * initializes sprite objects and gives them assisting functions
+   *
+   **/
+   function init(){
+      tank = {
+         sprite: tankSprite,
+         x: (canvas.width - tankSprite.sw)/2,
+         y: (canvas.height - (30 + tankSprite.sh))/2
+      };
+      drawSprite (tank.sprite, tank.x, tank.y);
+      
+   }; //end init()
+
 
    var onImageLoad=function(){
     //  ctx.drawImage(img,90,90);
-   } //end onImageLoad()
+   }; //end onImageLoad()
 
    setup();
+ //  init();
    </script>
 </body>
 </html>
